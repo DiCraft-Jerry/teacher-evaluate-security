@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.voMapper.EvaluationVoMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.Evaluation">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+            <result property="startTime" column="start_time" jdbcType="TIMESTAMP"/>
+            <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_id,start_time,
+        end_time,status
+    </sql>
+    <select id="listByRoleId" resultType="com.markerhub.entity.vo.EvaluationVo">
+        select e.id,e.role_id,r.name,e.start_time,e.end_time,e.status from evaluation e  inner join sys_role r on e.role_id=r.id
+    </select>
+</mapper>

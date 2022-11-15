@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.UserEvaluateMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.UserEvaluate">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="firstScore" column="first_score" jdbcType="VARCHAR"/>
+            <result property="teachId" column="teach_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,user_id,role_id,
+        first_score,quota_id,teach_id
+    </sql>
+
+    <insert id="saveUserEvaluate">
+        insert into test.user_evaluate (user_id,first_score,teach_id)
+        values (#{userId},#{firstScore},#{teachId})
+    </insert>
+
+    <select id="findUserEvaluate" resultType="com.markerhub.entity.vo.EvaluationInfoVo">
+        select ue.id, ue.user_id, su.username, sr.name as roleName ,
+        ue.first_score as score , coi.name as courseName , b.b_name as batchName
+        from test.user_evaluate ue
+        inner join test.sys_user su on ue.user_id = su.id
+        inner join test.teach t on ue.teach_id = t.id
+        inner join test.batch b on t.batch_id = b.id
+        inner join test.sys_user_role sur on sur.user_id = su.id
+        inner join test.sys_role sr on sr.id = sur.role_id
+        inner join test.course_info coi on coi.id = t.course_id
+        where b.id=#{batchId} and sr.id=#{roleId}
+    </select>
+    <select id="findUserEvaluateByBatchId" resultType="com.markerhub.entity.vo.EvaluationInfoVo">
+        select ue.id, ue.user_id, su.username, sr.name as roleName ,
+               ue.first_score as score , coi.name as courseName , b.b_name as batchName
+        from test.user_evaluate ue
+                 inner join test.sys_user su on ue.user_id = su.id
+                 inner join test.teach t on ue.teach_id = t.id
+                 inner join test.batch b on t.batch_id = b.id
+                 inner join test.sys_user_role sur on sur.user_id = su.id
+                 inner join test.sys_role sr on sr.id = sur.role_id
+                 inner join test.course_info coi on coi.id = t.course_id
+        where b.id=#{batchId}
+    </select>
+    <select id="findUserEvaluateByRoleId" resultType="com.markerhub.entity.vo.EvaluationInfoVo">
+        select ue.id, ue.user_id, su.username, sr.name as roleName ,
+               ue.first_score as score , coi.name as courseName , b.b_name as batchName
+        from test.user_evaluate ue
+                 inner join test.sys_user su on ue.user_id = su.id
+                 inner join test.teach t on ue.teach_id = t.id
+                 inner join test.batch b on t.batch_id = b.id
+                 inner join test.sys_user_role sur on sur.user_id = su.id
+                 inner join test.sys_role sr on sr.id = sur.role_id
+                 inner join test.course_info coi on coi.id = t.course_id
+        where sr.id=#{roleId}
+    </select>
+
+    <select id="findScoreByTeachIdFromStudent" resultType="String">
+        select ue.first_score from test.user_evaluate ue
+        INNER JOIN test.teach t on ue.teach_id = t.id
+        INNER JOIN test.sys_user su on ue.user_id = su.id
+        INNER JOIN test.sys_user_role sur on su.id = sur.user_id
+        INNER JOIN test.sys_role sr on sr.id = sur.role_id
+        where ue.teach_id = #{teachId} and sr.`code` = 'student';
+    </select>
+
+    <select id="findScoreByTeachIdFromTeacher" resultType="java.lang.String">
+        select ue.first_score from test.user_evaluate ue
+        INNER JOIN test.teach t on ue.teach_id = t.id
+        INNER JOIN test.sys_user su on ue.user_id = su.id
+        INNER JOIN test.sys_user_role sur on su.id = sur.user_id
+        INNER JOIN test.sys_role sr on sr.id = sur.role_id
+        where ue.teach_id = #{teachId} and sr.`code` = 'teacher';
+    </select>
+
+    <select id="findScoreByTeachIdFromDept" resultType="java.lang.String">
+        select ue.first_score from test.user_evaluate ue
+        INNER JOIN test.teach t on ue.teach_id = t.id
+        INNER JOIN test.sys_user su on ue.user_id = su.id
+        INNER JOIN test.sys_user_role sur on su.id = sur.user_id
+        INNER JOIN test.sys_role sr on sr.id = sur.role_id
+        where ue.teach_id = #{teachId} and sr.`code` = 'dept';
+    </select>
+
+    <select id="findScoreByTeachIdFromNormal" resultType="java.lang.String">
+        select ue.first_score from test.user_evaluate ue
+        INNER JOIN test.teach t on ue.teach_id = t.id
+        INNER JOIN test.sys_user su on ue.user_id = su.id
+        INNER JOIN test.sys_user_role sur on su.id = sur.user_id
+        INNER JOIN test.sys_role sr on sr.id = sur.role_id
+        where ue.teach_id = #{teachId} and sr.`code` = 'normal';
+    </select>
+    <select id="findAllTeachId" resultType="java.lang.Integer">
+        select teach_id from test.user_evaluate where user_id = #{userId}
+    </select>
+</mapper>

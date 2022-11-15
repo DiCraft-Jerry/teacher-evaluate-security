@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.StudyRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.StudyRecord">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="bId" column="b_id" jdbcType="INTEGER"/>
+            <result property="scId" column="sc_id" jdbcType="INTEGER"/>
+            <result property="srId" column="sr_id" jdbcType="INTEGER"/>
+            <result property="time" column="time" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,b_id,sc_id,
+        sr_id,time
+    </sql>
+</mapper>

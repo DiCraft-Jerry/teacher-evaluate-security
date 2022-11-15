@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.ScoreResultMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.ScoreResult">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="teachId" column="teach_id" jdbcType="INTEGER"/>
+            <result property="score" column=" score" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,teach_id, score
+    </sql>
+    <insert id="saveNewTeachingResult">
+        insert into test.score_result(teach_id, score) values (#{teachId}, #{score})
+    </insert>
+    <update id="updateOldTeachingResult">
+        update test.score_result set score=#{score} where teach_id = #{teachId}
+    </update>
+    <select id="findAll" resultType="com.markerhub.entity.ScoreResult">
+        select * from test.score_result
+    </select>
+    <select id="findRecordByTeachId" resultType="com.markerhub.entity.ScoreResult">
+        select * from test.score_result where teach_id = #{teachId}
+    </select>
+
+    <select id="findAllInfo" resultType="com.markerhub.entity.vo.ScoreResultInfoVo">
+        select sr.id, su.username as teacherName , su.id as teacherId, b.b_name as batchName , coi.name as courseName, ci.name as collegeName, cli.name as className, sr.score
+        from test.score_result sr inner join test.teach t on sr.teach_id = t.id
+                                  inner join test.sys_user su on su.id = t.teacher_id
+                                  inner join test.batch b on b.id = t.batch_id
+                                  inner join test.course_info coi on t.course_id = coi.id
+                                  inner join test.college_info ci on ci.id = t.college_id
+                                  inner join test.class_info cli on cli.id = t.class_id
+    </select>
+    <select id="findAllInfoByBatchId" resultType="com.markerhub.entity.vo.ScoreResultInfoVo">
+        select sr.id, su.username as teacherName , su.id as teacherId, b.b_name as batchName , coi.name as courseName, ci.name as collegeName, cli.name as className, sr.score
+        from test.score_result sr inner join test.teach t on sr.teach_id = t.id
+                                  inner join test.sys_user su on su.id = t.teacher_id
+                                  inner join test.batch b on b.id = t.batch_id
+                                  inner join test.course_info coi on t.course_id = coi.id
+                                  inner join test.college_info ci on ci.id = t.college_id
+                                  inner join test.class_info cli on cli.id = t.class_id
+        where b.id = #{batchId}
+    </select>
+
+
+</mapper>
