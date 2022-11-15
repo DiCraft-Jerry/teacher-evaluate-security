@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.voMapper.OptionsVoMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.QuotaOptions">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="quotaId" column="quota_id" jdbcType="INTEGER"/>
+            <result property="optionsName" column="options_name" jdbcType="VARCHAR"/>
+            <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,quota_id,options_name,
+        score
+    </sql>
+    <select id="listOptionsByRoleId" resultType="com.markerhub.entity.vo.OptionsVo">
+        select qo.quota_id,q.quota_name,q.quota_right,qo.options_name,qo.id,qo.score from quota_options qo
+        inner join sys_role_quota rq on qo.quota_id=rq.quota_id
+        inner join quota q on qo.quota_id=q.id
+        where rq.role_id=#{roleId}
+    </select>
+    <select id="listOptionsByRoleIdByTeacher" resultType="com.markerhub.entity.vo.OptionsVo">
+        select qo.quota_id,q.quota_name,q.quota_right,qo.options_name,qo.id,qo.score from quota_options qo
+        inner join sys_role_quota rq on qo.quota_id=rq.quota_id
+        inner join quota q on qo.quota_id=q.id
+        where rq.role_id= #{roleId} and q.quota_name not in ('教师个人方面','自我评价','自我评价的工作')
+    </select>
+    <select id="listOptionsByRoleIdByMine" resultType="com.markerhub.entity.vo.OptionsVo">
+        select qo.quota_id,q.quota_name,q.quota_right,qo.options_name,qo.id,qo.score from quota_options qo
+        inner join sys_role_quota rq on qo.quota_id=rq.quota_id
+        inner join quota q on qo.quota_id=q.id
+        where rq.role_id=#{roleId} and q.quota_name in ('教师个人方面','自我评价','自我评价的工作')
+
+    </select>
+</mapper>

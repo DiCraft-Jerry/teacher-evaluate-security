@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.QuotaOptionsMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.QuotaOptions">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="quotaId" column="quota_id" jdbcType="INTEGER"/>
+            <result property="optionsName" column="options_name" jdbcType="VARCHAR"/>
+            <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,quota_id,options_name,
+        score
+    </sql>
+
+    <select id="findAll" resultMap="BaseResultMap">
+        select * from quota_options
+    </select>
+    <select id="getInfoByOptionsId" resultType="com.markerhub.entity.QuotaOptions">
+
+        select * from quota_options where id = #{id}
+    </select>
+
+    <update id="updateScore" >
+        update quota_options set score = #{score} where id = #{id}
+    </update>
+
+
+</mapper>

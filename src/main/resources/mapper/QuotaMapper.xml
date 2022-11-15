@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.QuotaMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.Quota">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="quotaName" column="quota_name" jdbcType="VARCHAR"/>
+            <result property="quotaRight" column="quota_right" jdbcType="DOUBLE"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+            <result property="createdTime" column="CREATED_TIME" jdbcType="TIMESTAMP"/>
+            <result property="updatedTime" column="UPDATED_TIME" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <resultMap id="BaseResultMap2" type="com.markerhub.entity.QuotaOptions">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="quotaId" column="quota_id" jdbcType="INTEGER"/>
+        <result property="optionsName" column="options_name" jdbcType="VARCHAR"/>
+        <result property="score" column="score" jdbcType="INTEGER"/>
+    </resultMap>
+
+
+    <insert id="insertQuota" parameterType="com.markerhub.entity.Quota">
+        <selectKey keyProperty="id" resultType="int" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+        INSERT INTO `test`.`quota` (`quota_name`, `quota_right`, `parent_id`,CREATED_TIME,UPDATED_TIME) VALUES (#{quotaName}, #{quotaRight},#{parentId},#{createdTime},#{updatedTime})
+    </insert>
+
+    <insert id="insertOptions" parameterType="list">
+        insert into `test`.quota_options(quota_id, options_name, score) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.quotaId},#{item.optionsName},#{item.score})
+        </foreach>
+    </insert>
+    <update id="updateById">
+        update quota set quota_name=#{quotaName},
+        quota_right=#{quotaRight},parent_id=#{parentId},UPDATED_TIME=#{updatedTime}
+        where id=#{id}
+    </update>
+    <delete id="removeById">
+        delete from quota where id=#{id}
+    </delete>
+    <select id="findAll" resultType="com.markerhub.entity.Quota">
+        select * from quota
+    </select>
+    <select id="getById" resultType="com.markerhub.entity.Quota">
+        select * from quota where id =#{id}
+    </select>
+
+</mapper>
