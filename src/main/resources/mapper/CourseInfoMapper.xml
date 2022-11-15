@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.CourseInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.CourseInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="publisherId" column="publisher_id" jdbcType="INTEGER"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,publisher_id,
+        status
+    </sql>
+    <select id="findById" resultType="com.markerhub.entity.CourseInfo">
+        select * from course_info where id=#{courseId}
+    </select>
+    <select id="finAll" resultType="com.markerhub.entity.CourseInfo">
+        select * from course_info where id=#{courseId}
+    </select>
+</mapper>

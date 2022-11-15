@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.CollegeTeacherMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.CollegeTeacher">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="collegeId" column="college_id" jdbcType="INTEGER"/>
+            <result property="userId" column="user_id" jdbcType="INTEGER"/>
+            <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,college_id,user_id,role_id
+    </sql>
+    <select id="findAll" resultType="com.markerhub.entity.CollegeTeacher">
+
+        select * from college_teacher
+
+    </select>
+
+
+
+</mapper>

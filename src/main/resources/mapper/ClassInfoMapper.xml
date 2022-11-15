@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.markerhub.mapper.ClassInfoMapper">
+
+    <resultMap id="BaseResultMap" type="com.markerhub.entity.ClassInfo">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="name" column="name" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,name,status
+    </sql>
+
+    <select id="findByName" resultType="com.markerhub.entity.ClassInfo">
+        select * from class_info where name=#{name}
+    </select>
+    <select id="findById" resultType="com.markerhub.entity.ClassInfo">
+        select * from class_info where id=#{classId}
+    </select>
+</mapper>
