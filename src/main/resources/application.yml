@@ -1,0 +1,40 @@
+server:
+  ip: localhost
+  port: 8081
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: 123456
+  redis:
+    host: 127.0.0.1
+    port: 6379
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+  security:
+    intercept-url:
+      pattern: "/**"
+      access: "ROLE_USER,ROLE_ADMIN"
+
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+markerhub:
+  jwt:
+    header: Authorization
+    expire: 604800 #7天，秒单位
+    secret: ji8n3439n439n43ld9ne9343fdfer49h
+  #返回json的全局时间格式
+
+files:
+  upload:
+    path: D:/ider/files/
+
+
+
